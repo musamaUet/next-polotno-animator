@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^1.7.2",
+    "frappe-charts": "^1.6.2",
     "next": "14.2.4",
     "polotno": "^2.9.9",
     "react": "^18",
