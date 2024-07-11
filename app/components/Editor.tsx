@@ -7,7 +7,6 @@ import { ZoomButtons } from 'polotno/toolbar/zoom-buttons';
 import { SidePanel } from 'polotno/side-panel';
 import { Workspace } from 'polotno/canvas/workspace';
 import { DEFAULT_SECTIONS } from 'polotno/side-panel';
-import { ChartSection, getChart } from './ChartSection';
 import { createStore } from 'polotno/model/store';
 import axios from 'axios';
 import '@blueprintjs/core/lib/css/blueprint.css';
@@ -31,26 +30,16 @@ export default function Editor() {
         console.log('json ', store.toJSON());
     }
 
-    getChart({ data: [[25, 40, 10]], type: 'pie' }).then((src) => {
-        store.activePage.addElement({
-          type: 'svg',
-          name: 'chart',
-          x: store.width / 2 - 150,
-          y: store.height / 2 - 150,
-          width: 400,
-          height: 300,
-          src,
-          custom: {
-            data: [25, 40],
-          },
-        });
-      });
-    const sections: any = [ChartSection, ...DEFAULT_SECTIONS];
+    const customSections = DEFAULT_SECTIONS.filter(section => {
+      // Add condition to exclude sections you don't want
+      console.log('section', section);
+      return section.name !== 'elements';
+    });
 
     return (
         <PolotnoContainer style={{ width: '100vw', height: '100vh' }}>
             <SidePanelWrap>
-                <SidePanel store={store} sections={sections} />
+                <SidePanel store={store} sections={customSections}/>
             </SidePanelWrap>
             <WorkspaceWrap>
                 <Toolbar store={store} downloadButtonEnabled />
